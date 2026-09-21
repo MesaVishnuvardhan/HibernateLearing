@@ -12,9 +12,11 @@ public class Main {
         // Hibernate --> Process
 
         Student student = new Student();
-        student.setRollNo(1);
-        student.setsName("Vishnu");
+        student.setRollNo(6);
+        student.setsName("Sanjana..");
         student.setsAge(19);
+
+        Student s2 = null;
 
 
         Configuration configuration = new Configuration().configure();
@@ -29,6 +31,7 @@ public class Main {
             System.out.println("Before persisting");
             session.persist(student); // Using Persiste instead of save coz new version remove save() method
 
+
             transaction.commit();
             System.out.println("Successfully persisted student");
             System.out.println(student);
@@ -41,8 +44,20 @@ public class Main {
             session.close();
             sessionFactory.close();
         }
-//        session.persist(student);
-//        transaction.commit();
-//        System.out.println(student);
+
+        s2 = session.find(Student.class , 6); // Fetching the Data On the Database
+        transaction.commit(); // Saving perminently -- >
+        System.out.println("The Student Deatils above : -");
+        System.out.println(s2);
+
+        session.merge(student); // Updating the Details on The database
+        transaction.commit(); // Saving Permenetly
+
+        session.persist(student);
+        transaction.commit();
+        System.out.println(student);
+
+        session.close();
+        sessionFactory.close();
     }
 }
